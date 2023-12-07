@@ -1,4 +1,4 @@
-# NBA-Season-Predictor
+# NBA Season Predictor
 
 I wanted to build a model that could reasonably predict an NBA team's record and playoff qualification for the upcoming season based on the results from the previous season. This seemed like a decently doable task and since I had already built a web scraper for NBA players it wouldn't take much work to build one for NBA teams.
 
@@ -22,4 +22,14 @@ There is a looming issue with sticking all this information into one big dataset
 So, comparing the data directly between seasons doesn't make sense since we would lots of skews in the data. We can solve this issue by keeping the scope within individual seasons. We standard normalize each season's stats that way the top spenders, top offenses, and top acqusitions of a decade ago aren't skewed but actually comparable to those of this past season. We leave the boolean stats and win percentages untouched since have consistent measurements (except for the lockout and COVID seasons).
 
 ## Results
+The 2002-2022 data was divided into training and validation datasets with 80%/20% splits and tested on the 2023-2024 season data. The average win difference between the prediction and reality hover around 7.5 games going as low as the high 6's. The playoff correctness hovers around 75% as well going as high as 80% depending on the data split. Below I have two results from the RandomForestRegression implementation since the Neural Network implementation took much longer and gave either similar or worse results. The Western Conference is kept on the left and Eastern Conference on the right where each are sorted by their win percentage.
 
+<img tite="Result 1" src="https://github.com/gio-puter/NBA-Season-Predictor/blob/main/Season%20Predictor%20Results%201.png?raw=true" width="650" hspace="20" align="center"/> 
+<img title="Result 2" src="https://github.com/gio-puter/NBA-Season-Predictor/blob/main/Season%20Predictor%20Results%202.png?raw=true" width="650" hspace="20" align="center"/>
+
+We can notice that the rankings are generally the same even though the win percentages may waver. We also find some oddities where the Sacramento Kings are predicted to be the 3rd best team in the West but have a smaller playoff likelihood than teams below them. The other thing to recognize is that the RandomForestRegressor model isn't as bold as a neural network would be. The San Antonio Spurs are predicted to get around 30 wins and the Denver Nuggets are predicted to get around 50 wins. This lack of boldness holds the model back where a human would probably say the Spurs are going to reach 15-20 wins and the Nuggets will end with 56-60 wins. Another takeaway from the results shown here as well as from looking at the validation results is that if the prediction results are ≥70% then the team is pretty much a lock to make the playoffs and if they are ≤30% then they are sure to miss the playoffs. This looks good as San Antonio, Portland, Utah, Washington, and Detroit are pretty much out of the playoff race at this point in the NBA season. On the flip side, things generally line up pretty well with playoff contention but there are some outliers that pose some issues within the model's construction.
+
+## Things that the data misses
+The starkest difference between the current NBA standings and this prediction is Memphis' placement. Currently, Memphis ranks near the bottom of the league whereas here they finish top 2. This mostly lends to the fact that Memphis is without their best player in Ja Morant for the first 25 games as he has been suspended and key role players being injured. The data does not take into account existing injuries or suspensions leading into the season.
+
+There are other big jumps comparing reality to prediction such as with the Orlando Magic, Minnesota Timberwolves, and Golden State Warriors.
