@@ -109,6 +109,7 @@ def score_dataset(X_train, X_valid, y_train, y_valid):
         min_samples_leaf=4, 
         n_jobs=2, 
         warm_start=True,
+        random_state=67
     )
     
     model.fit(X_train, y_train)
